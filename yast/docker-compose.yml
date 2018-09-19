@@ -1,0 +1,45 @@
+version: '2'
+services:
+  consul:
+    image:  progrium/consul:latest
+    command: "-advertise=${MYHOST} -server -bootstrap"
+    container_name: consul
+    ports:
+    - 8500:8500
+  api:
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - $PWD:/go/src/auth
+    links:
+      - db
+      - redis
+      - nats
+      - consul
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: example
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+  nats:
+    image: nats
+    restart: always
+  registrator:
+    image: gliderlabs/registrator:latest
+    command: " consul://consul:8500"
+    container_name: registrator
+    depends_on:
+    - consul
+    links:
+      - consul
+    volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
