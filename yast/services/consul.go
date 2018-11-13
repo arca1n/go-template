@@ -93,10 +93,11 @@ func configureNats(kv *consul.KV) NatsConfig {
 func getEnvironment(kv *consul.KV) Environment {
 	/// Finally look up environment
 	pair, _, err := kv.Get("ENVIRONMENT", nil)
-	if err != nil {
+	if err != nil || pair == nil {
 		panic(err)
 	}
 	var environment Environment
+
 	if err := json.Unmarshal(pair.Value, &environment); err != nil {
 		panic(err)
 	}

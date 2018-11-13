@@ -1,0 +1,1 @@
+{"DB_CONFIG":{"db_host":"postgres","db_user":"postgres","db_password":"example","db_name":"auth","db_usessl":"false","port":5432},"REDIS_CONFIG":{"redis_host":"redis:6379","user":"root","password":""},"NATS_CONFIG":{"nats_host":"nats"},"ENVIRONMENT":{"type":"dev","log_level":"debug"}}

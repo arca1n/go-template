@@ -6,19 +6,6 @@ services:
     container_name: consul
     ports:
     - 8500:8500
-  api:
-    build: .
-    restart: always
-    ports:
-      - "8080:8080"
-      - "443:443"
-    volumes:
-      - $PWD:/go/src/auth
-    links:
-      - db
-      - redis
-      - nats
-      - consul
   db:
     image: postgres
     ports:
